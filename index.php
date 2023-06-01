@@ -8,3 +8,4 @@ phpinfo();
 phpinfo(INFO_MODULES);
 
 ?>
+//info
