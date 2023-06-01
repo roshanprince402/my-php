@@ -6,24 +6,18 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy to server
-        run: |
-          sudo apt-get update && sudo apt-get install -y sshpass && ls -la
-          ls -la
-          sshpass -p ${{ secrets.SERVER_PASSWORD }} sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/  ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/var/www/html/
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/ /var/www/html/
