@@ -31,4 +31,4 @@ jobs:
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
       - name: Deploy to server
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/path/to/your/project
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/var/www/html/
