@@ -24,6 +24,6 @@ jobs:
     steps:
       - name: Deploy to server
         run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
+          sudo apt-get update && sudo apt-get install -y sshpass && ls -la
           ls -la
-          sshpass -p ${{ secrets.SERVER_PASSWORD }} sudo rsync "ssh -o StrictHostKeyChecking=no" ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/var/www/html/
+          sshpass -p ${{ secrets.SERVER_PASSWORD }} sudo rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/var/www/html/
